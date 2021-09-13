@@ -1,5 +1,5 @@
 # Order-Progress-using-Django-channels
-=> Screen shots
+=> This is a simple django-channels project of order progress. It is only one small part of any online delivery system for showing order progress. Alot of the work is still needed to do. The order progress bar change is done asynchronously using websocket.
 
 i) Home
 
