@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-3">
+    <h1>MOMO Page</h1>
+    <div class="row">
+        {% for momo in momos %}
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img src="{{momo.image}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{momo.name}}</h5>
+                    <p class="card-text">Rs.{{momo.price}}</p> 
+                    <button onclick="orderMomo({{momo.id}})" class="btn btn-primary">Order</button>
+                     
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    <hr>
+
+    <div>
+        <h3 class="text-center mb-4">All Orders</h3>
+        <div class="table-responsive font-size-md">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Order Token</th>
+                        <th>Date Purchased</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td class="py-3"><a class="nav-link-style font-weight-medium font-size-sm" href="#order-details"
+                                data-toggle="modal">{{order.order_token}}</a></td>
+                        <td class="py-3">{{order.date}}</td>
+                        <td class="py-3"><span class="badge bg-info m-0">{{order.status}}</span></td>
+                        <td class="py-3">Rs.{{order.amount}}</td>
+                        <td class="py-3">
+                            <a href="{% url 'order_progress' order_token=order.order_token %}" class="btn btn-danger btn-sm">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+ 
+function orderMomo(momo_id){  
+    fetch('order_momo/', {
+        method : "POST",
+        headers : {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'id': momo_id})
+    })
+    .then(resp => resp.json())
+    .then(data =>{
+        console.log(data);
+        window.location.reload();
+    })
+    .catch(err => console.log(err));
+}
+
+</script>
+{% endblock content %}
